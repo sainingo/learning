@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stacked Modals Example</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#dropdownItems").change(function () {
+          var selectedOption = $(this).val();
+          if (selectedOption === "addNew") {
+            $("#childModal").modal("show");
+            // Reset dropdown to default
+            $(this).val("");
+          }
+        });
+
+        $("#childForm").submit(function (event) {
+          event.preventDefault(); // Prevent the form from submitting
+          // Collect data from input fields
+          var field1Value = $("#field1").val();
+          var field2Value = $("#field2").val();
+          // Update parent dropdown options
+          $("#dropdownItems").append(
+            '<option value="' + field1Value + '">' + field2Value + "</option>"
+          );
+          // Hide the child modal
+          $("#childModal").modal("hide");
+          // Reset form fields
+          $("#field1, #field2").val("");
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Parent Modal -->
+    <div
+      class="modal fade"
+      id="parentModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="parentModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="parentModalLabel">Parent Modal</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Parent Modal Content -->
+            <div class="form-group">
+              <label for="dropdownItems">Select an item:</label>
+              <select class="custom-select" id="dropdownItems">
+                <option value="" disabled selected>Select an option</option>
+                <option value="addNew">Add New</option>
+                <!-- Existing items will be dynamically added here -->
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Child Modal -->
+    <div
+      class="modal fade"
+      id="childModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="childModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="childModalLabel">Child Modal</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Child Modal Content -->
+            <form id="childForm">
+              <div class="form-group">
+                <label for="field1">Field 1:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="field1"
+                  placeholder="Enter value for Field 1"
+                />
+              </div>
+              <div class="form-group">
+                <label for="field2">Field 2:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="field2"
+                  placeholder="Enter value for Field 2"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trigger Button for Parent Modal -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#parentModal"
+    >
+      Open Parent Modal
+    </button>
+  </body>
+</html>
